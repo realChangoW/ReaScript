@@ -29,5 +29,5 @@ This project develops various ReaScript scripts to extend the functionality of t
 
 ## Script List
 
-- import_tool.lua - Import Tool Script
+- CW_Media&Folder_import_tool.lua - Import Tool Script
 - More scripts are under development...
