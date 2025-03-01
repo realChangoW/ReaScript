@@ -1,4 +1,33 @@
-loadfile("E:/Software/Music/Reaper/Scripts/ReaTeam Scripts/Development/Lokasenna_GUI v2/Library/Core.lua")()
+-- @description Audio File Import Tool for REAPER
+-- @version 1.0
+-- @author ChangoW
+-- @changelog
+--   Initial release of the script
+-- @links
+--   https://github.com/realChangoW/ReaScript
+-- @donate https://paypal.me/realChangoW?country.x=C2&locale.x=zh_XC
+-- @about This script is an audio file import tool for REAPER, designed to simplify batch importing and organizing audio files. It supports common audio formats and offers various import modes and options for efficient workflow management in music and post-production.
+--   Features:
+--     - Browse and select audio files/folders
+--     - View detailed file information (sample rate, bitrate, duration, file size, file type)
+--     - Manage import list (add files, adjust order, remove files)
+--     - Flexible import options (vertical, diagonal, horizontal)
+--     - Import units: Sample Item or Folder
+--     - Additional options: relative paths for track names, folder structure-based track creation
+
+
+-- Check if Lokasenna_GUI library is installed
+local lib_path = reaper.GetResourcePath() .. '/Scripts/ReaTeam Scripts/Development/Lokasenna_GUI v2/Library/'
+local core_path = lib_path .. 'Core.lua'
+local info = debug.getinfo(1,'S')
+script_path = info.source:match[[^@?(.*[\/])[^\/]-$]]
+
+if not reaper.file_exists(core_path) then
+    reaper.MB('This script requires the Lokasenna_GUI v2 library. Please install it via ReaPack: ReaTeam Extensions > "Script: Lokasenna_GUI v2".', 'Error', 0)
+    return
+end
+
+loadfile(core_path)()
 GUI.req("Classes/Class - Button.lua")()
 GUI.req("Classes/Class - Listbox.lua")()
 GUI.req("Classes/Class - Options.lua")()
@@ -15,6 +44,7 @@ local importList = {}
 local readyImportList={}
 local fileStringList = {"file in here..."}
 local readyImportStringList={"ready to import..."}
+
 
 
 -------------------Function----------------
@@ -146,8 +176,8 @@ function getImportList(dir,ImportList)
         if is_valid_audio_extension(filename) then
             local filetype = getFileExtension(filename)
             local export_path = "\\"..remove_prefix_path(dir,importPath).."\\"
-            reaper.ShowConsoleMsg("remove_prefix_path(dir,importPath)"..remove_prefix_path(dir,importPath).."\n")
-            reaper.ShowConsoleMsg(filename..":"..export_path.."\n")
+            --reaper.ShowConsoleMsg("remove_prefix_path(dir,importPath)"..remove_prefix_path(dir,importPath).."\n")
+            --reaper.ShowConsoleMsg(filename..":"..export_path.."\n")
             -------组合导入数据table
             --1文件,文件名，相对路径,文件类型,绝对路径
             local fileInfoElement = {1,filename,export_path,filetype,dir.."\\"..filename}
@@ -338,6 +368,7 @@ GUI.name = "Import Tool by ChangoW"
 GUI.x, GUI.y = 128, 128
 GUI.w, GUI.h = 850, 600
 
+
 GUI.New({
     name="pathTextbox",
     type = "Textbox",
@@ -345,8 +376,15 @@ GUI.New({
     x = 50,
     y = 30,
     w = 300,
-    h = 26,
+    h = 20,
     caption = "Path:",
+    cap_pos = "left",
+    font_a = 3,
+    font_b = 2,
+    color = "txt",
+    bg = "wnd_bg",
+    shadow = true,
+    pad = 4
 })
 
 GUI.New({
@@ -368,7 +406,7 @@ GUI.New({
         clearTable(importList)
         getImportList(importPath,importList)
         toFormantStringList(importList,fileStringList)
-        reaper.ShowConsoleMsg(importList[2][2])
+        --reaper.ShowConsoleMsg(importList[2][2])
 
     end
 })
@@ -416,24 +454,24 @@ end
 function updateFileInfoLabels(info)
     if not info then
         -- 如果没有信息，显示默认值
-        GUI.Val("sampleRateLabel", "采样率: --")
-        GUI.Val("bitrateLabel", "比特率: --")
-        GUI.Val("durationLabel", "时长: --")
-        GUI.Val("fileSizeLabel", "文件大小: --")
-        GUI.Val("fileTypeLabel", "类型: --")
+        GUI.Val("sampleRateLabel", "sample_rate: --")
+        GUI.Val("bitrateLabel", "bitrate: --")
+        GUI.Val("durationLabel", "duration: --")
+        GUI.Val("fileSizeLabel", "file_size: --")
+        GUI.Val("fileTypeLabel", "file_type: --")
         return
     end
     
     -- 格式化显示信息
-    GUI.Val("sampleRateLabel", string.format("采样率: %.0f Hz", info.samplerate))
-    GUI.Val("bitrateLabel", string.format("比特率: %.0f kbps", info.bitrate / 1000))
-    GUI.Val("durationLabel", string.format("时长: %.2f 秒", info.length))
-    GUI.Val("fileSizeLabel", string.format("文件大小: %.2f MB", info.filesize / (1024 * 1024)))
-    GUI.Val("fileTypeLabel", "类型: " .. info.filetype:sub(2))
+    GUI.Val("sampleRateLabel", string.format("sample_rate:%.0f Hz", info.samplerate))
+    GUI.Val("bitrateLabel", string.format("bitrate:%.0f kbps", info.bitrate / 1000))
+    GUI.Val("durationLabel", string.format("duration:%.2f s", info.length))
+    GUI.Val("fileSizeLabel", string.format("file_size:%.2f MB", info.filesize / (1024 * 1024)))
+    GUI.Val("fileTypeLabel", "file_type:" .. info.filetype:sub(2))
 end
 
 GUI.New("fileViewListbox","Listbox",{
-    caption = "file",
+    caption = "File:",
     z = 2,
     list = fileStringList,
     x = 50,
@@ -447,7 +485,7 @@ GUI.New("fileViewListbox","Listbox",{
 GUI.New({
     name = "finalListbox",
     type = "Listbox",
-    caption = "import:",
+    caption = "Ready Import:",
     z = 2,
     list = readyImportStringList,
     x = 450,
@@ -465,7 +503,7 @@ GUI.New({
     z = 3,
     x = 60,
     y = 340,
-    caption = "采样率: --",
+    caption = "sample --",
     font = 3,
 })
 
@@ -475,7 +513,7 @@ GUI.New({
     z = 3,
     x = 200,
     y = 340,
-    caption = "比特率: --",
+    caption = "bitrate: --",
     font = 3,
 })
 
@@ -485,7 +523,7 @@ GUI.New({
     z = 3,
     x = 60,
     y = 365,
-    caption = "时长: --",
+    caption = "duration: --",
     font = 3,
 })
 
@@ -495,7 +533,7 @@ GUI.New({
     z = 3,
     x = 200,
     y = 365,
-    caption = "文件大小: --",
+    caption = "Size: --",
     font = 3,
 })
 
@@ -505,7 +543,7 @@ GUI.New({
     z = 3,
     x = 60,
     y = 390,
-    caption = "类型: --",
+    caption = "type: --",
     font = 3,
 })
 
@@ -602,11 +640,11 @@ GUI.New({
     name = "importBotton",
     type = "Button",
     z=2,
-    x=660,
+    x=630,
     y=315,
-    w=90,
+    w=120,
     h=40,
-    caption	= "IMPORT",
+    caption	= "IMPORT to Reaper",
     func = function ()
         startImport(readyImportList)
 
@@ -624,7 +662,7 @@ GUI.New({
     caption = "↑",
     func = function()
         local selected = GUI.Val("finalListbox")
-        reaper.ShowConsoleMsg("上移按钮选中项: " .. tostring(selected) .. "\n")
+        --reaper.ShowConsoleMsg("上移按钮选中项: " .. tostring(selected) .. "\n")
         if selected and selected > 1 then
             -- 交换当前选中项与上一项
             local temp = readyImportList[selected]
@@ -656,7 +694,7 @@ GUI.New({
     caption = "↓",
     func = function()
         local selected = GUI.Val("finalListbox")
-        reaper.ShowConsoleMsg("下移按钮选中项: " .. tostring(selected) .. "\n")
+        --reaper.ShowConsoleMsg("下移按钮选中项: " .. tostring(selected) .. "\n")
         if selected and selected < #readyImportList then
             -- 交换当前选中项与下一项
             local temp = readyImportList[selected]
@@ -686,7 +724,9 @@ GUI.New({
     w = 590,
     h = 120,
     caption = "Import Directory",
-    opts = {"竖向导入:所有音频单位在各自独立的轨道上，起始位置对齐（适合多轨混音）", "斜向导入:所有音频单位在各自独立的轨道上，依次排列（适合音频检查）", "横向导入:所有音频单位在同一轨道上依次排列（适合音频拼接）"},
+    opts = {"Vertical Import: Each audio unit on separate tracks, aligned at start ", 
+            "Diagonal Import: Each audio unit on separate tracks, arranged sequentially ", 
+            "Horizontal Import: All audio units on single track in sequence "},
     dir = "v",
     pad = 8,
     frame = true,
@@ -705,7 +745,7 @@ GUI.New({
     w = 150,
     h = 120,
     caption = "unit of import",
-    opts = {"Sample Item", "Folder"},
+    opts = {"Audio Item", "Each Folder"},
     dir = "v",
     pad = 8,
     frame = true,
@@ -733,34 +773,19 @@ GUI.New({
     shadow = true,
 
 })
-GUI.New({
-    name = "create folder tracks",
-    type = "Checklist",
-    z = 2,
-    x = 300,  -- 移动到上一个checklist右边
-    y = 550,
-    w = 250,  -- 增加宽度以适应更长的文本
-    h = 120,
-    caption = "",
-    opts = {"以原始目录结构创建文件夹轨道"},
-    dir = "v",
-    pad = 8,
-    frame = false,
-    font_a = 3,
-    font_b = 2,
-    shadow = true,
-})
+
 GUI.New({
     name = "aboutButton",
     type = "Button",
     z = 2,
-    x = 600,
-    y = 30,
-    w = 60,
-    h = 25,
-    caption = "关于",
+    x = 800,
+    y = 565,
+    w = 35,  -- 减小宽度
+    h = 20,  -- 减小高度
+    caption = "('◡')",  -- 使用更简单的符号
+    font = 3, -- 使用更小的字体
     func = function()
-        reaper.MB("作者：ChangoW\n邮箱：changow@qq.com", "关于", 0)
+        reaper.MB("author：ChangoW\nEmail：changow@qq.com", "Report a Problem", 0)
     end
 })
 
@@ -805,7 +830,22 @@ GUI.Init()
 
 -- 在GUI.Init()之后，GUI.Main()之前添加这段代码
 GUI.elms.fileViewListbox.onmousedown = fileViewListbox_Update
-GUI.func = updateAudioInfo
+-- 定义textbox内容变化的监听函数
+function updatePathTextbox()
+    local newPath = GUI.Val("pathTextbox")
+    if newPath ~= "" and newPath ~= importPath then
+        importPath = newPath
+        clearTable(importList)
+        getImportList(importPath, importList)
+        toFormantStringList(importList, fileStringList)
+    end
+end
+
+-- 设置GUI更新函数
+GUI.func = function()
+    updateAudioInfo()
+    updatePathTextbox()
+end
 
 GUI.Main()
 

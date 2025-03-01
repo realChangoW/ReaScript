@@ -42,152 +42,9 @@ GUI.req("Classes/Class - Label.lua")()
 local importPath = ""
 local importList = {}
 local readyImportList={}
-local fileStringList = {"file in here..."}
-local readyImportStringList={"ready to import..."}
+local fileStringList = {"文件夹中的文件..."}
+local readyImportStringList={"准备导入的列表..."}
 
--- 菜单栏配置
--- 语言配置
-local lang = {
-    en = {
-        window_title = "Import Tool by ChangoW",
-        menu_language = "Language",
-        path_caption = "Path:",
-        file_caption = "file",
-        ready_import_caption = "ready to import",
-        import_directory = "Import Directory",
-        unit_of_import = "unit of import",
-        use_relative_path = "use relative path as track name",
-        sample_rate = "Sample Rate: ",
-        bitrate = "Bitrate: ",
-        duration = "Duration: ",
-        file_size = "File Size: ",
-        file_type = "Type: ",
-        mixing = "Mixing",
-        checking = "Checking",
-        line = "Line",
-        sample_item = "Audio Item",
-        folder = "Folder"
-    },
-    zh = {
-        window_title = "音频导入工具 by ChangoW",
-        menu_language = "语言",
-        path_caption = "路径：",
-        file_caption = "文件",
-        ready_import_caption = "准备导入",
-        import_directory = "导入方式",
-        unit_of_import = "导入单位",
-        use_relative_path = "使用相对路径作为轨道名",
-        sample_rate = "采样率：",
-        bitrate = "比特率：",
-        duration = "时长：",
-        file_size = "文件大小：",
-        file_type = "类型：",
-        mixing = "混音模式",
-        checking = "检查模式",
-        line = "线性模式",
-        sample_item = "音频块",
-        folder = "文件夹"
-    }
-}
-
--- 当前语言
-local current_lang = "zh"
-
--- 获取当前语言的文本
-local function getText(key)
-    return lang[current_lang][key]
-end
-
--- 更新UI文本
-local function updateUIText()
-    GUI.name = getText("window_title")
-
-    
-    -- 更新菜单栏
-    menubar_items = {
-        {
-            title = getText("menu_language"),
-            options = {
-                {"English", function() 
-                    current_lang = "en"
-                    updateUIText()
-                end},
-                {"中文", function()
-                    current_lang = "zh"
-                    updateUIText()
-                end}
-            }
-        }
-    }
-    
-    -- 更新菜单栏
-    if GUI.elms.menubar then
-        GUI.Val("menubar", menubar_items)
-    end
-    
-    -- 更新其他UI元素的文本
-    if GUI.elms.pathTextbox then
-        GUI.elms.pathTextbox.caption = getText("path_caption")
-    end
-    
-    -- 更新列表框标题
-    if GUI.elms.fileViewListbox then
-        GUI.elms.fileViewListbox.caption = getText("file_caption")
-    end
-    
-    if GUI.elms.finalListbox then
-        GUI.elms.finalListbox.caption = getText("ready_import_caption")
-    end
-    
-    -- 更新信息标签
-    if GUI.elms.sampleRateLabel then
-        GUI.elms.sampleRateLabel.caption = getText("sample_rate") .. " --"
-    end
-    
-    if GUI.elms.bitrateLabel then
-        GUI.elms.bitrateLabel.caption = getText("bitrate") .. ": --"
-    end
-    
-    if GUI.elms.durationLabel then
-        GUI.elms.durationLabel.caption = getText("duration") .. ": --"
-    end
-    
-    if GUI.elms.fileSizeLabel then
-        GUI.elms.fileSizeLabel.caption = getText("file_size") .. ": --"
-    end
-    
-    if GUI.elms.fileTypeLabel then
-        GUI.elms.fileTypeLabel.caption = getText("file_type") .. ": --"
-    end
-    
-    -- 更新单选按钮组
-    if GUI.elms["Import Directory"] then
-        GUI.elms["Import Directory"].caption = getText("import_directory")
-        GUI.elms["Import Directory"].opts = {
-            getText("mixing"), 
-            getText("checking"), 
-            getText("line")
-        }
-    end
-    
-    if GUI.elms["unit of import"] then
-        GUI.elms["unit of import"].caption = getText("unit_of_import")
-        GUI.elms["unit of import"].opts = {
-            getText("sample_item"), 
-            getText("folder")
-        }
-    end
-    
-    -- 更新复选框
-    if GUI.elms["use relative path as track name"] then
-        GUI.elms["use relative path as track name"].opts = {
-            getText("use_relative_path")
-        }
-    end
-    
-    -- 重绘UI
-    GUI.redraw_z[0] = true
-end
 
 
 -------------------Function----------------
@@ -319,8 +176,8 @@ function getImportList(dir,ImportList)
         if is_valid_audio_extension(filename) then
             local filetype = getFileExtension(filename)
             local export_path = "\\"..remove_prefix_path(dir,importPath).."\\"
-            reaper.ShowConsoleMsg("remove_prefix_path(dir,importPath)"..remove_prefix_path(dir,importPath).."\n")
-            reaper.ShowConsoleMsg(filename..":"..export_path.."\n")
+            --reaper.ShowConsoleMsg("remove_prefix_path(dir,importPath)"..remove_prefix_path(dir,importPath).."\n")
+            --reaper.ShowConsoleMsg(filename..":"..export_path.."\n")
             -------组合导入数据table
             --1文件,文件名，相对路径,文件类型,绝对路径
             local fileInfoElement = {1,filename,export_path,filetype,dir.."\\"..filename}
@@ -511,35 +368,6 @@ GUI.name = "Import Tool by ChangoW"
 GUI.x, GUI.y = 128, 128
 GUI.w, GUI.h = 850, 600
 
--- 初始化菜单栏配置
-menubar_items = {
-    {
-        title = getText("menu_language"),
-        options = {
-            {"English", function() 
-                current_lang = "en"
-                updateUIText()
-            end},
-            {"中文", function()
-                current_lang = "zh"
-                updateUIText()
-            end}
-        }
-    }
-}
-
--- 创建菜单栏
-GUI.New({
-    name = "menubar",
-    type = "Menubar",
-    z = 1,
-    x = 0,
-    y = 0,
-    w = GUI.w,
-    h = 20,
-    menus = menubar_items,
-    fullwidth = true
-})
 
 GUI.New({
     name="pathTextbox",
@@ -549,7 +377,7 @@ GUI.New({
     y = 30,
     w = 300,
     h = 20,
-    caption = getText("path_caption"),
+    caption = "路径:",
     cap_pos = "left",
     font_a = 3,
     font_b = 2,
@@ -578,7 +406,7 @@ GUI.New({
         clearTable(importList)
         getImportList(importPath,importList)
         toFormantStringList(importList,fileStringList)
-        reaper.ShowConsoleMsg(importList[2][2])
+        --reaper.ShowConsoleMsg(importList[2][2])
 
     end
 })
@@ -626,24 +454,24 @@ end
 function updateFileInfoLabels(info)
     if not info then
         -- 如果没有信息，显示默认值
-        GUI.Val("sampleRateLabel", getText("sample_rate")..": --")
-        GUI.Val("bitrateLabel", getText("bitrate")..": --")
-        GUI.Val("durationLabel", getText("duration")..": --")
-        GUI.Val("fileSizeLabel", getText("file_size")..": --")
-        GUI.Val("fileTypeLabel", getText("file_type")..": --")
+        GUI.Val("sampleRateLabel", "采样率: --")
+        GUI.Val("bitrateLabel", "比特率: --")
+        GUI.Val("durationLabel", "时长: --")
+        GUI.Val("fileSizeLabel", "大小: --")
+        GUI.Val("fileTypeLabel", "类型: --")
         return
     end
     
     -- 格式化显示信息
-    GUI.Val("sampleRateLabel", string.format(getText("sample_rate").."%.0f Hz", info.samplerate))
-    GUI.Val("bitrateLabel", string.format(getText("bitrate").."%.0f kbps", info.bitrate / 1000))
-    GUI.Val("durationLabel", string.format(getText("duration").."%.2f 秒", info.length))
-    GUI.Val("fileSizeLabel", string.format(getText("file_size").."%.2f MB", info.filesize / (1024 * 1024)))
-    GUI.Val("fileTypeLabel", getText("file_type") .. info.filetype:sub(2))
+    GUI.Val("sampleRateLabel", string.format("采样率:%.0f Hz", info.samplerate))
+    GUI.Val("bitrateLabel", string.format("比特率:%.0f kbps", info.bitrate / 1000))
+    GUI.Val("durationLabel", string.format("时长:%.2f s", info.length))
+    GUI.Val("fileSizeLabel", string.format("大小:%.2f MB", info.filesize / (1024 * 1024)))
+    GUI.Val("fileTypeLabel", "类型:" .. info.filetype:sub(2))
 end
 
 GUI.New("fileViewListbox","Listbox",{
-    caption = getText("file_caption"),
+    caption = "文件:",
     z = 2,
     list = fileStringList,
     x = 50,
@@ -657,7 +485,7 @@ GUI.New("fileViewListbox","Listbox",{
 GUI.New({
     name = "finalListbox",
     type = "Listbox",
-    caption = getText("ready_import_caption"),
+    caption = "导入列表:",
     z = 2,
     list = readyImportStringList,
     x = 450,
@@ -675,7 +503,7 @@ GUI.New({
     z = 3,
     x = 60,
     y = 340,
-    caption = getText("sample_rate").." --",
+    caption = "采样率: --",
     font = 3,
 })
 
@@ -685,7 +513,7 @@ GUI.New({
     z = 3,
     x = 200,
     y = 340,
-    caption = getText("bitrate")..": --",
+    caption = "比特率: --",
     font = 3,
 })
 
@@ -695,7 +523,7 @@ GUI.New({
     z = 3,
     x = 60,
     y = 365,
-    caption = getText("duration")..": --",
+    caption = "时长: --",
     font = 3,
 })
 
@@ -705,7 +533,7 @@ GUI.New({
     z = 3,
     x = 200,
     y = 365,
-    caption = getText("file_size")..": --",
+    caption = "大小: --",
     font = 3,
 })
 
@@ -715,7 +543,7 @@ GUI.New({
     z = 3,
     x = 60,
     y = 390,
-    caption = getText("file_type")..": --",
+    caption = "类型: --",
     font = 3,
 })
 
@@ -727,7 +555,7 @@ GUI.New({
     y=120,
     w=90,
     h=20,
-    caption	= "Add to -->",
+    caption	= "添加-->",
     func = function()
         -- 获取选中的索引
         local selected = GUI.elms.fileViewListbox:val()      
@@ -751,7 +579,7 @@ GUI.New({
     y=150,
     w=90,
     h=20,
-    caption	= "Add All to -->",
+    caption	= "全部添加-->",
     func = function ()
         --if importList == nil
         --reaper.ShowConsoleMsg(importList[2][2])
@@ -770,7 +598,7 @@ GUI.New({
     y=180,
     w=90,
     h=20,
-    caption	= "<--Move out",
+    caption	= "<--移出",
     func = function()
         -- 获取选中的索引
         local selected = GUI.elms.finalListbox:val()
@@ -794,7 +622,7 @@ GUI.New({
     y=210,
     w=90,
     h=20,
-    caption	= "<--All out",
+    caption	= "<--全部移出",
     func = function()
         -- 将所有项目移回原始列表
         for _, item in ipairs(readyImportList) do
@@ -816,7 +644,7 @@ GUI.New({
     y=315,
     w=120,
     h=40,
-    caption	= "IMPORT to Reaper",
+    caption	= "导入到Reaper",
     func = function ()
         startImport(readyImportList)
 
@@ -834,7 +662,7 @@ GUI.New({
     caption = "↑",
     func = function()
         local selected = GUI.Val("finalListbox")
-        reaper.ShowConsoleMsg("上移按钮选中项: " .. tostring(selected) .. "\n")
+        --reaper.ShowConsoleMsg("上移按钮选中项: " .. tostring(selected) .. "\n")
         if selected and selected > 1 then
             -- 交换当前选中项与上一项
             local temp = readyImportList[selected]
@@ -866,7 +694,7 @@ GUI.New({
     caption = "↓",
     func = function()
         local selected = GUI.Val("finalListbox")
-        reaper.ShowConsoleMsg("下移按钮选中项: " .. tostring(selected) .. "\n")
+        --reaper.ShowConsoleMsg("下移按钮选中项: " .. tostring(selected) .. "\n")
         if selected and selected < #readyImportList then
             -- 交换当前选中项与下一项
             local temp = readyImportList[selected]
@@ -895,8 +723,10 @@ GUI.New({
     y = 430,
     w = 590,
     h = 120,
-    caption = getText("import_directory"),
-    opts = {"竖向导入:所有音频单位在各自独立的轨道上，起始位置对齐（适合多轨混音）", "斜向导入:所有音频单位在各自独立的轨道上，依次排列（适合音频检查）", "横向导入:所有音频单位在同一轨道上依次排列（适合音频拼接）"},
+    caption = "导入方式",
+    opts = {"垂直导入：所有音频单独成轨，起始位置对齐（适合混音）", 
+            "对角导入：所有音频单独成轨，依次排列（适合检查）", 
+            "水平导入：所有音频在同一轨道上依次排列（适合拼接）"},
     dir = "v",
     pad = 8,
     frame = true,
@@ -914,8 +744,8 @@ GUI.New({
     y = 430,
     w = 150,
     h = 120,
-    caption = getText("unit_of_import"),
-    opts = {"Sample Item", "Folder"},
+    caption = "导入单位",
+    opts = {"音频块", "各文件夹"},
     dir = "v",
     pad = 8,
     frame = true,
@@ -934,7 +764,7 @@ GUI.New({
     w = 150,
     h = 120,
     caption = "",
-    opts = {getText("use_relative_path")},
+    opts = {"使用相对路径作为轨道名"},
     dir = "v",
     pad = 8,
     frame = false,
