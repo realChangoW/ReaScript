@@ -1,2 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" name="CW ReaScripts"/>
+<index version="1" name="CW ReaScripts" commit="e56da76944fd9b20bddf80e875b0501162bade78">
+  <category name="script">
+    <reapack name="CW_Media_Folder_import_tool(Chinese ver.).lua" type="script" desc="Audio File Import Tool for REAPER">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 \fmodern Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 This script is an audio file import tool for REAPER, designed to simplify batch importing and organizing audio files. It supports common audio formats and offers various import modes and options for efficient workflow management in music and post-production. Features:\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Browse and select audio files/folders\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab View detailed file information (sample rate, bitrate, duration, file size, file type)\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Manage import list (add files, adjust order, remove files)\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Flexible import options (vertical, diagonal, horizontal)\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Import units: Sample Item or Folder\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Additional options: relative paths for track names, folder structure-based track creation\sa180\par}
+}
+]]></description>
+        <link rel="website">https://github.com/realChangoW/ReaScript</link>
+        <link rel="donation">https://paypal.me/realChangoW?country.x=C2&amp;locale.x=zh_XC</link>
+      </metadata>
+      <version name="1.0" author="ChangoW" time="2025-03-02T03:51:04Z">
+        <changelog><![CDATA[Initial release of the script]]></changelog>
+        <source main="main">https://github.com/realChangoW/ReaScript/raw/e56da76944fd9b20bddf80e875b0501162bade78/script/CW_Media_Folder_import_tool(Chinese%20ver.).lua</source>
+      </version>
+    </reapack>
+    <reapack name="CW_Media_Folder_import_tool(English ver.).lua" type="script" desc="Audio File Import Tool for REAPER">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 \fmodern Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 This script is an audio file import tool for REAPER, designed to simplify batch importing and organizing audio files. It supports common audio formats and offers various import modes and options for efficient workflow management in music and post-production. Features:\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Browse and select audio files/folders\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab View detailed file information (sample rate, bitrate, duration, file size, file type)\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Manage import list (add files, adjust order, remove files)\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Flexible import options (vertical, diagonal, horizontal)\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Import units: Sample Item or Folder\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Additional options: relative paths for track names, folder structure-based track creation\sa180\par}
+}
+]]></description>
+        <link rel="website">https://github.com/realChangoW/ReaScript</link>
+        <link rel="donation">https://paypal.me/realChangoW?country.x=C2&amp;locale.x=zh_XC</link>
+      </metadata>
+      <version name="1.0" author="ChangoW" time="2025-03-02T03:51:04Z">
+        <changelog><![CDATA[Initial release of the script]]></changelog>
+        <source main="main">https://github.com/realChangoW/ReaScript/raw/e56da76944fd9b20bddf80e875b0501162bade78/script/CW_Media_Folder_import_tool(English%20ver.).lua</source>
+      </version>
+    </reapack>
+  </category>
+</index>
