@@ -1,4 +1,6 @@
--- @description Audio File Import Tool for REAPER
+-- @description 音频文件导入工具
+-- @provides
+--   [main=..\script\CW_Media_Folder_import_tool_CN.lua]
 -- @version 1.0
 -- @author ChangoW
 -- @changelog
