@@ -1,4 +1,4 @@
--- @description Audio File Import Tool for REAPER
+-- @description CW_Media_Folder_import_tool(English ver.)
 -- @version 1.0
 -- @author ChangoW
 -- @changelog
@@ -6,7 +6,7 @@
 -- @links
 --   https://github.com/realChangoW/ReaScript
 -- @donate https://paypal.me/realChangoW?country.x=C2&locale.x=zh_XC
--- @about This script is an audio file import tool for REAPER, designed to simplify batch importing and organizing audio files. It supports common audio formats and offers various import modes and options for efficient workflow management in music and post-production.
+-- @about This script is an audio file import tool for REAPER
 --   Features:
 --     - Browse and select audio files/folders
 --     - View detailed file information (sample rate, bitrate, duration, file size, file type)

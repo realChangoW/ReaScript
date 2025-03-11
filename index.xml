@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <index version="1" name="CW ReaScripts" commit="e56da76944fd9b20bddf80e875b0501162bade78">
   <category name="script">
-    <reapack name="CW_Media_Folder_import_tool_CN.lua" type="script" desc="音频文件导入工具 (中文版)">
+    <reapack name="CW_Media_Folder_import_tool_CN.lua" type="script" desc="CW_Media_Folder_import_tool (Chinese ver.)">
       <metadata>
         <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 \fmodern Courier;}}
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
@@ -24,7 +24,7 @@
         <source main="main">https://github.com/realChangoW/ReaScript/raw/e56da76944fd9b20bddf80e875b0501162bade78/script/CW_Media_Folder_import_tool(Chinese%20ver.).lua</source>
       </version>
     </reapack>
-    <reapack name="CW_Media_Folder_import_tool_EN.lua" type="script" desc="Audio File Import Tool (English Version)">
+    <reapack name="CW_Media_Folder_import_tool_EN.lua" type="script" desc="CW_Media_Folder_import_tool(English Version)">
       <metadata>
         <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 \fmodern Courier;}}
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
