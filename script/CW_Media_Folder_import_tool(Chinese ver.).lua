@@ -15,7 +15,30 @@
 --     - Flexible import options (vertical, diagonal, horizontal)
 --     - Import units: Sample Item or Folder
 --     - Additional options: relative paths for track names, folder structure-based track creation
+--[[ 判断操作系统类型
+    说明: 获取当前REAPER运行的操作系统类型
+    REAPER的GetOS()函数可能返回以下值:
+      - "Win32"、"Win64" 等Windows系统标识
+      - "OSX32"、"OSX64"、"macOS" 等Mac系统标识
+      - "Other" 通常表示Linux或其他系统
+    返回值:
+        string: "Windows"、"Mac"、"Linux" 或 "Unknown OS"
+]]
+function getOS()
+    local os_name = reaper.GetOS()
+    if os_name:match("Win") then
+        return "Windows"
+    elseif os_name:match("OSX") or os_name:match("macOS") then
+        return "Mac"
+    elseif os_name:match("Other") then
+        return "Linux"
+    else
+        return "Unknown OS"
+    end
+end
 
+local OSType = getOS()
+-- reaper.ShowConsoleMsg("OSType: "..OSType)
 
 -- Check if Lokasenna_GUI library is installed
 local lib_path = reaper.GetResourcePath() .. '/Scripts/ReaTeam Scripts/Development/Lokasenna_GUI v2/Library/'
@@ -849,4 +872,8 @@ GUI.func = function()
 end
 
 GUI.Main()
+
+
+
+
 
